@@ -5,12 +5,20 @@ import { useState } from 'react';
 
 function App() {
 
-  const [task, setTask] = useState("");
-  const [tasks,setTasks] = useState(["eat", "sleep"]);
+  const [task, setTask] = useState({name:"", completed: false});
+  const [tasks,setTasks] = useState([]);
   const getTask = () => {
-    return tasks.map((task, index) => <li class="list-group-item"
-    onClick={() =>{deleteTask(index)}}>{task}</li>)
+    return tasks.map((task, index) => <li 
+    class={task.completed? "list-group-item list-group-item-success" : "list-group-item list-group-item-danger"}
+    onClick={() =>{updateTask(index)}}
+    onDoubleClick={() =>{deleteTask(index)}}>{task.name}</li>)
 
+  }
+  const updateTask = (i) => {
+    const newTasks = [...tasks];
+    newTasks.splice(i, 1,{name:newTasks[i].name, completed:!newTasks[i].completed});
+    setTasks(newTasks);
+    
   }
   const deleteTask = (i) => {
     const newTasks = [...tasks];
@@ -21,9 +29,9 @@ function App() {
   const addTask = (t) => {
     if (t){
       const newTasks = [...tasks];
-      newTasks.push(t);
+      newTasks.push({name:t, completed: false});
       setTasks(newTasks);
-      setTask("");
+      setTask({name:"", completed: false});
     }
     else{
       alert("enter valid value")
@@ -32,7 +40,7 @@ function App() {
   return (
     <div className="App">
       <input class="form-control" type="text" onChange={(e) => {setTask(e.target.value)}}
-      value={task} 
+      value={task.name} 
       placeholder="enter the task"></input>
       <button class="btn btn-success w-50"onClick={()=>{addTask(task)}}>Change</button>
       <ul class="list-group">
