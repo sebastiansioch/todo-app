@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {AiOutlinePlus} from 'react-icons/ai'
 import { useEffect, useState } from 'react';
@@ -82,7 +81,6 @@ const deleteTodo = async (id) => {
         </ul>
         <p className={style.count} >You have {todos.length} todos</p>
       </div>
-      
       
     </div>
   );
