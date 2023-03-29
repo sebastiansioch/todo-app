@@ -20,8 +20,6 @@ function App() {
   const [todos,setTodos] = useState([]);
   const [input, setInput] = useState("")
 
-//Create Todo
-
 const createTodo = async (e) => {
   e.preventDefault(e)
   if(input === "") {
@@ -31,12 +29,9 @@ const createTodo = async (e) => {
   await addDoc(collection(db, 'ToDo'), {
     text: input,
     completed: false
-
   })
   setInput("")
 }
-
-//Read Todo from Firebase
 
   useEffect (() => {
     const q = query(collection(db, 'ToDo'))
@@ -50,14 +45,13 @@ const createTodo = async (e) => {
     return () => unsubscribe()
 
   },[])
-//Update firebase
-const toggleComplete = async (todo) => {
+
+const completeTodo = async (todo) => {
   await updateDoc(doc(db, 'ToDo' , todo.id), {
     completed: !todo.completed
   })
 }
 
-//Delete Todd
 const deleteTodo = async (id) => {
   await deleteDoc(doc(db,'ToDo', id))
 }
@@ -81,7 +75,7 @@ const deleteTodo = async (id) => {
             <Todo 
             key={index} 
             todo={todo} 
-            toggleComplete={toggleComplete}
+            completeTodo={completeTodo}
             deleteTodo={deleteTodo}
             />
           ))}
